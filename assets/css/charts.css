@@ -1,0 +1,287 @@
+/* ============================================================
+   Harmonised chart styling
+   City of Kigali - Digital Inspection Platform
+
+   Loaded AFTER style.css. Gives all three dashboard charts a
+   single visual language: same plot height, same gridlines,
+   same typography, same colour semantics.
+
+   Colour semantics used consistently everywhere:
+     blue   = volume / counts / neutral series
+     green  = compliance 70% and above
+     gold   = compliance 50-69%
+     red    = compliance below 50%
+   ============================================================ */
+
+.chart {
+  --plot-h: 190px;
+  --axis-w: 34px;
+  position: relative;
+  padding: 4px 0 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Plot area with gridlines ---------- */
+
+.chart-plot {
+  position: relative;
+  height: var(--plot-h);
+  margin-left: var(--axis-w);
+  border-bottom: 1px solid #D9DEE5;
+}
+
+.chart-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.chart-grid span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed #EDF0F3;
+}
+
+.chart-grid span::after {
+  content: attr(data-v);
+  position: absolute;
+  left: calc(-1 * var(--axis-w));
+  top: -7px;
+  width: calc(var(--axis-w) - 8px);
+  text-align: right;
+  font-size: 10.5px;
+  color: #98A0AC;
+  font-weight: 600;
+}
+
+/* Threshold marker, e.g. the 70% compliance target */
+.chart-grid span.threshold {
+  border-top: 1px dashed var(--cok-green);
+  opacity: .55;
+}
+
+.chart-grid span.threshold::after {
+  color: var(--cok-green);
+}
+
+/* ---------- Bars ---------- */
+
+.chart-bars {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 6px;
+  padding: 0 4px;
+}
+
+.chart-col {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+}
+
+.chart-bar {
+  flex: 1 1 0;
+  max-width: 26px;
+  min-width: 6px;
+  border-radius: 3px 3px 0 0;
+  position: relative;
+  animation: chartGrow .55s cubic-bezier(.22, .8, .3, 1) both;
+}
+
+.chart-bar.blue  { background: var(--cok-blue); }
+.chart-bar.green { background: var(--cok-green); }
+.chart-bar.gold  { background: var(--cok-gold); }
+.chart-bar.red   { background: var(--cok-red); }
+
+.chart-bar[data-v]::before {
+  content: attr(data-v);
+  position: absolute;
+  top: -17px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #4A5361;
+  white-space: nowrap;
+}
+
+@keyframes chartGrow {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+.chart-bar { transform-origin: bottom; }
+
+/* ---------- X-axis labels ---------- */
+
+.chart-labels {
+  display: flex;
+  justify-content: space-around;
+  gap: 6px;
+  margin-left: var(--axis-w);
+  padding: 7px 4px 0;
+}
+
+.chart-labels span {
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+  font-size: 11px;
+  color: #6B7280;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Legend ---------- */
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #EDF0F3;
+  font-size: 12px;
+  color: #5B6270;
+  font-weight: 600;
+}
+
+.chart-legend i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 6px;
+  vertical-align: -1px;
+}
+
+.chart-legend i.blue  { background: var(--cok-blue); }
+.chart-legend i.green { background: var(--cok-green); }
+.chart-legend i.gold  { background: var(--cok-gold); }
+.chart-legend i.red   { background: var(--cok-red); }
+
+/* ---------- Horizontal ranking rows (district chart) ---------- */
+
+.rank-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  padding: 11px 0;
+}
+
+.rank-row + .rank-row { border-top: 1px solid #F0F2F4; }
+
+.rank-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--cok-blue);
+}
+
+.rank-name small {
+  display: block;
+  font-weight: 500;
+  font-size: 11.5px;
+  color: #7A828F;
+  margin-top: 1px;
+}
+
+.rank-val {
+  font-size: 15px;
+  font-weight: 800;
+  text-align: right;
+  align-self: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.rank-val.green { color: var(--cok-green); }
+.rank-val.gold  { color: #B08800; }
+.rank-val.red   { color: var(--cok-red); }
+
+.rank-track {
+  grid-column: 1 / -1;
+  height: 9px;
+  background: #EEF1F4;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.rank-fill {
+  height: 100%;
+  border-radius: 5px;
+  animation: rankGrow .7s cubic-bezier(.22, .8, .3, 1) both;
+  transform-origin: left;
+}
+
+.rank-fill.green { background: var(--cok-green); }
+.rank-fill.gold  { background: var(--cok-gold); }
+.rank-fill.red   { background: var(--cok-red); }
+
+@keyframes rankGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ---------- Card header harmonisation ---------- */
+
+.card h3 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 14px;
+  letter-spacing: .01em;
+}
+
+.card h3 .badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: #EEF2FA;
+  color: var(--cok-blue);
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* ---------- Empty state ---------- */
+
+.chart-empty {
+  height: var(--plot-h);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #98A0AC;
+  font-size: 13px;
+}
+
+.chart-empty strong {
+  font-size: 14px;
+  color: #6B7280;
+  font-weight: 600;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  .chart { --plot-h: 160px; --axis-w: 28px; }
+  .chart-labels span { font-size: 10px; }
+  .chart-bar[data-v]::before { font-size: 9.5px; }
+}
+
+@media print {
+  .chart-bar, .rank-fill { animation: none !important; }
+}

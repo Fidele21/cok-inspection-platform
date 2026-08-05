@@ -1,0 +1,11 @@
+.env
+.env.*
+/vendor/
+composer.phar
+error_log
+*.log
+.DS_Store
+Thumbs.db
+robots.txt
+_healthcheck.php
+_dbcheck.php

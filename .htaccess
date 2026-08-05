@@ -1,0 +1,37 @@
+RewriteEngine On
+RewriteRule ^report/([0-9]+)$ index.php?view=report&id=$1 [L]
+RewriteRule ^letter/([0-9]+)$ index.php?view=letter&id=$1 [L]
+
+# MIME types for Word documents
+AddType application/vnd.openxmlformats-officedocument.wordprocessingml.document .docx
+AddType application/msword .doc
+
+# ------------------------------------------------------------------
+# SECURITY HARDENING (added)
+# ------------------------------------------------------------------
+
+# Block direct browser access to secrets, dumps, logs and config
+<FilesMatch "^(\.env.*|.*\.sql|.*\.log|error_log|composer\.(json|lock|phar)|.*\.md)$">
+    Require all denied
+</FilesMatch>
+
+# Block the config directory entirely
+RedirectMatch 404 ^/.*/config/.*$
+
+# Never list directories
+Options -Indexes
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(self), camera=(self), microphone=()"
+</IfModule>
+
+# Force HTTPS — inspection data must not travel in clear text
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>

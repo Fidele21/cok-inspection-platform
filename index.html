@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Inspection Platform - City of Kigali</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏗️</text></svg>">
+</head>
+<body>
+
+    <!-- ===== TOPBAR ===== -->
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-mark">CoK</div>
+            <div class="brand-text">
+                <h1>Inspect</h1>
+                <p>Building &amp; Fire Safety Records</p>
+            </div>
+        </div>
+        <div class="tabs no-print">
+            <button class="tab-btn active" data-view="form">New Inspection</button>
+            <button class="tab-btn" data-view="records">Records</button>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTAINER ===== -->
+    <div class="container">
+
+        <!-- ===== FORM VIEW ===== -->
+        <div class="view active" id="view-form">
+            <h2 class="section-title" id="form-heading">New Inspection</h2>
+            <p class="subtitle">Fire &amp; security compliance checklist. Fields save automatically when you click Save.</p>
+
+            <!-- Entity Type -->
+            <div class="card">
+                <h3>Entity Type</h3>
+                <div class="field" style="max-width: 420px;">
+                    <label>Which checklist applies to this inspection?</label>
+                    <select id="f-entity-type"></select>
+                </div>
+            </div>
+
+            <!-- Entity Details -->
+            <div class="card">
+                <h3>Entity Details</h3>
+                <div class="grid-2">
+                    <div class="field"><label>Entity Name <span class="required">*</span></label><input type="text" id="f-name" placeholder="e.g. Kigali Heights Building"></div>
+                    <div class="field"><label>Entity Owner</label><input type="text" id="f-owner" placeholder="Owner or representative name"></div>
+                    <div class="field"><label>Owner Telephone</label><input type="tel" id="f-tel" placeholder="078..."></div>
+                    <div class="field"><label>Owner Email</label><input type="email" id="f-email" placeholder="name@example.com"></div>
+                    <div class="field"><label>Entity Use</label><input type="text" id="f-use" placeholder="e.g. Commercial office, hotel, mall"></div>
+                    <div class="field"><label>UPI</label><input type="text" id="f-upi" placeholder="Parcel UPI"></div>
+                </div>
+                <div class="grid-3">
+                    <div class="field"><label>District</label><input type="text" id="f-district"></div>
+                    <div class="field"><label>Sector</label><input type="text" id="f-sector"></div>
+                    <div class="field"><label>Cell</label><input type="text" id="f-cell"></div>
+                </div>
+                <div class="field" style="max-width: 220px;">
+                    <label>Inspection Date</label>
+                    <input type="date" id="f-date">
+                </div>
+            </div>
+
+            <!-- Checklist -->
+            <div id="checklist-sections"></div>
+
+            <!-- Observations & Recommendations -->
+            <div class="card">
+                <h3>Observations &amp; Recommendations</h3>
+                <div class="field"><label>General Observations</label><textarea id="f-observations" placeholder="What did you observe on site?"></textarea></div>
+                <div class="field"><label>General Recommendations</label><textarea id="f-recommendations" placeholder="What must be corrected, and by when?"></textarea></div>
+                <div class="field"><label>Entity Owner / Representative Recommendations</label><textarea id="f-owner-rec" placeholder="Any input from the entity owner or representative"></textarea></div>
+            </div>
+
+            <!-- Inspection Team -->
+            <div class="card">
+                <h3>Inspection Team</h3>
+                <div id="team-rows"></div>
+                <button class="btn btn-ghost" id="add-team-row" type="button">+ Add team member</button>
+                <div class="field" style="max-width: 320px; margin-top: 16px;">
+                    <label>Entity Owner / Representative Name</label>
+                    <input type="text" id="f-owner-rep-name" placeholder="Present at inspection">
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="btn-row no-print">
+                <button class="btn btn-ghost" id="clear-form">Clear Form</button>
+                <button class="btn btn-primary" id="save-inspection">Save Inspection</button>
+            </div>
+        </div>
+
+        <!-- ===== RECORDS VIEW ===== -->
+        <div class="view" id="view-records">
+            <h2 class="section-title">Inspected Buildings</h2>
+            <p class="subtitle">All saved inspections, stored in the database.</p>
+            
+            <div class="records-toolbar no-print">
+                <input type="text" id="records-search" placeholder="Search by entity, district, owner...">
+                <select id="records-sort">
+                    <option value="date-desc">Newest first</option>
+                    <option value="date-asc">Oldest first</option>
+                    <option value="name-asc">Name A–Z</option>
+                    <option value="score-asc">Lowest compliance first</option>
+                </select>
+            </div>
+            <div id="records-list"></div>
+        </div>
+
+        <!-- ===== REPORT VIEW ===== -->
+        <div class="view" id="view-report">
+            <div class="report-toolbar no-print">
+                <button class="btn btn-secondary" id="report-back">← Back to Records</button>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" id="report-edit">Edit Inspection</button>
+                    <button class="btn btn-primary" id="report-print">🖨️ Print / PDF</button>
+                </div>
+            </div>
+            <div class="report-paper" id="report-content"></div>
+        </div>
+
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="assets/js/app.js"></script>
+
+</body>
+</html>

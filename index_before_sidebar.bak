@@ -27,14 +27,14 @@ $navGroups = [
         ],
     ],
     [
-        'label' => 'Fire Prevention',
+        'label' => '1. Fire Prevention',
         'items' => [
             'building' => ['Occupied Building', 'building_checklist.php'],
             'petrol'   => ['Petrol Station',    'petrol_checklist.php'],
         ],
     ],
     [
-        'label' => 'Building Inspection',
+        'label' => '2. Building Inspection',
         'items' => [
             'construction'    => ['Ongoing Construction',      'coming_soon.php'],
             'desk_review'     => ['Desk Review',               'coming_soon.php'],
@@ -42,21 +42,21 @@ $navGroups = [
         ],
     ],
     [
-        'label' => 'Environment Protection',
+        'label' => '3. Environment Protection',
         'items' => [
             'waste_water' => ['Waste Water Treatment Plan', 'coming_soon.php'],
             'solid_waste' => ['Solid Waste Collection',     'coming_soon.php'],
         ],
     ],
     [
-        'label' => 'Road Inspection',
+        'label' => '4. Road Inspection',
         'items' => [
             'road_corridor' => ['Corridor',                       'coming_soon.php'],
             'street_light'  => ['Street Light Inspection',        'coming_soon.php'],
         ],
     ],
     [
-        'label' => 'Enforcement',
+        'label' => '5. Enforcement',
         'items' => [
             'fines' => ['Fines', 'coming_soon.php'],
         ],
@@ -161,95 +161,37 @@ $currentUser = getCurrentUser();
         .signout:hover { background: rgba(255,255,255,0.12); }
 
         .menu-toggle {
-            display: inline-flex; align-items: center; gap: 9px;
-            background: rgba(255,255,255,0.10);
-            border: 1px solid rgba(255,255,255,0.28);
-            color: #fff; border-radius: 6px;
-            padding: 8px 14px 8px 12px; cursor: pointer;
-            font-size: 12.5px; font-weight: 600; letter-spacing: .02em;
-            font-family: inherit;
-            transition: background .15s, border-color .15s;
+            display: none; background: transparent;
+            border: 1px solid rgba(255,255,255,0.3); color: #fff;
+            border-radius: 4px; padding: 7px 12px; cursor: pointer;
+            font-size: 13px; font-weight: 600;
         }
-        .menu-toggle:hover { background: rgba(255,255,255,0.20); border-color: rgba(255,255,255,0.45); }
-        .menu-toggle:focus-visible { outline: 2px solid var(--cok-gold); outline-offset: 2px; }
-
-        .menu-toggle .bars {
-            display: flex; flex-direction: column; justify-content: center;
-            gap: 3.5px; width: 16px; height: 14px;
-        }
-        .menu-toggle .bars i {
-            display: block; height: 2px; width: 100%;
-            background: #fff; border-radius: 2px;
-            transition: transform .22s ease, opacity .16s ease;
-        }
-        body.nav-open .menu-toggle .bars i:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
-        body.nav-open .menu-toggle .bars i:nth-child(2) { opacity: 0; }
-        body.nav-open .menu-toggle .bars i:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
 
         /* ===== Layout ===== */
-        .layout { min-height: calc(100vh - 57px); }
+        .layout { display: flex; align-items: flex-start; min-height: calc(100vh - 56px); }
 
         .sidebar {
             width: var(--sidebar-w);
+            flex: 0 0 var(--sidebar-w);
             background: var(--card);
             border-right: 1px solid var(--line);
-            padding: 12px 0 40px;
-            position: fixed;
-            left: 0; top: 57px; bottom: 0;
-            z-index: 130;
+            padding: 18px 0 40px;
+            position: sticky;
+            top: 56px;
+            max-height: calc(100vh - 56px);
             overflow-y: auto;
-            transform: translateX(-100%);
-            transition: transform .24s cubic-bezier(.4,0,.2,1);
-            box-shadow: 6px 0 22px rgba(0,0,0,0);
         }
-        body.nav-open .sidebar {
-            transform: translateX(0);
-            box-shadow: 6px 0 22px rgba(0,0,0,0.13);
+        .nav-group { margin-bottom: 18px; }
+        .nav-group > .nav-heading {
+            font-size: 10.5px; font-weight: 800; letter-spacing: .1em;
+            text-transform: uppercase; color: #8A919D;
+            padding: 0 20px 7px;
         }
-        .nav-group { border-bottom: 1px solid #EFF1F4; }
-        .nav-group:last-of-type { border-bottom: none; }
-
-        .nav-group > summary {
-            list-style: none;
-            cursor: pointer;
-            padding: 12px 18px 12px 20px;
-            font-size: 10.5px;
-            font-weight: 800;
-            letter-spacing: .11em;
-            text-transform: uppercase;
-            color: #78808C;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            user-select: none;
-            transition: color .12s;
-        }
-        .nav-group > summary::-webkit-details-marker { display: none; }
-        .nav-group > summary:hover { color: var(--cok-blue); }
-
-        .nav-group > summary::after {
-            content: '';
-            width: 6px; height: 6px;
-            border-right: 1.5px solid currentColor;
-            border-bottom: 1.5px solid currentColor;
-            transform: rotate(45deg);
-            margin-bottom: 2px;
-            transition: transform .18s ease;
-            flex-shrink: 0;
-        }
-        .nav-group[open] > summary::after { transform: rotate(-135deg); margin-bottom: -2px; }
-        .nav-group[open] > summary { color: var(--cok-blue); }
-
-        .nav-body { padding-bottom: 8px; }
-
         .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            padding: 8px 18px 8px 21px;
-            font-size: 13px;
-            color: #3C434E;
+            display: block;
+            padding: 9px 20px 9px 22px;
+            font-size: 13.5px;
+            color: var(--ink);
             text-decoration: none;
             border-left: 3px solid transparent;
             transition: background .12s, color .12s, border-color .12s;
@@ -261,35 +203,27 @@ $currentUser = getCurrentUser();
             font-weight: 700;
             border-left-color: var(--cok-blue);
         }
-
-        .nav-link::before {
-            content: '';
-            width: 5px; height: 5px; border-radius: 50%;
-            background: var(--cok-green);
-            flex-shrink: 0;
+        .nav-link.planned { color: #9AA1AC; }
+        .nav-link.planned::after {
+            content: 'planned';
+            float: right; font-size: 9px; font-weight: 700;
+            letter-spacing: .06em; text-transform: uppercase;
+            background: #F0F2F5; color: #9AA1AC;
+            padding: 2px 7px; border-radius: 10px; margin-top: 2px;
         }
-        .nav-link.planned { color: #98A0AC; }
-        .nav-link.planned::before { background: #D3D8DE; }
         .nav-link.planned.active { color: var(--cok-blue); }
 
-        .sidebar-foot { padding: 16px 20px 0; margin-top: 6px; border-top: 1px solid var(--line); }
+        .sidebar-foot { padding: 14px 20px 0; margin-top: 10px; border-top: 1px solid var(--line); }
         .sidebar-foot a {
-            display: block; font-size: 12.5px; color: #3C434E;
-            text-decoration: none; font-weight: 600; padding: 6px 0;
-            transition: color .12s;
+            display: block; font-size: 12.5px; color: var(--cok-blue);
+            text-decoration: none; font-weight: 600; padding: 5px 0;
         }
-        .sidebar-foot a:hover { color: var(--cok-blue); }
+        .sidebar-foot a:hover { text-decoration: underline; }
 
-        .content { padding: 0 26px 60px; }
+        .content { flex: 1; min-width: 0; padding: 0 24px 60px; }
         .container { max-width: 1180px; margin: 0 auto; }
 
-        .backdrop {
-            display: none; position: fixed; inset: 57px 0 0 0;
-            background: rgba(16,20,28,0.34); z-index: 125;
-            animation: fadeIn .18s ease;
-        }
-        body.nav-open .backdrop { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .backdrop { display: none; }
 
         /* ===== Views ===== */
         .view { display: none; padding-top: 24px; }
@@ -506,12 +440,20 @@ $currentUser = getCurrentUser();
 
         /* ===== Responsive ===== */
         @media (max-width: 860px) {
-            .sidebar { width: min(84vw, 300px); }
+            .menu-toggle { display: inline-block; }
+            .sidebar {
+                position: fixed; left: 0; top: 56px; bottom: 0;
+                z-index: 130; transform: translateX(-100%);
+                transition: transform .22s ease; box-shadow: 4px 0 18px rgba(0,0,0,0.14);
+                max-height: none;
+            }
+            body.nav-open .sidebar { transform: translateX(0); }
+            body.nav-open .backdrop {
+                display: block; position: fixed; inset: 56px 0 0 0;
+                background: rgba(0,0,0,0.35); z-index: 125;
+            }
             .content { padding: 0 16px 60px; }
             .user-badge { display: none; }
-            .menu-toggle .menu-label { display: none; }
-            .menu-toggle { padding: 9px 11px; }
-            .brand-text p { display: none; }
             .stats-grid { grid-template-columns: 1fr 1fr; }
             .checklist-item { grid-template-columns: 1fr; }
             .btn-row { flex-direction: column; }
@@ -535,7 +477,7 @@ $currentUser = getCurrentUser();
 
 <header class="topbar">
     <div style="display:flex; align-items:center; gap:14px;">
-        <button class="menu-toggle no-print" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false"><span class="bars"><i></i><i></i><i></i></span><span class="menu-label">Menu</span></button>
+        <button class="menu-toggle no-print" id="menu-toggle" aria-label="Toggle navigation">Menu</button>
         <div class="brand">
             <div class="brand-mark">CoK</div>
             <div class="brand-text">
@@ -556,13 +498,9 @@ $currentUser = getCurrentUser();
 <div class="layout">
 
     <nav class="sidebar no-print" id="sidebar">
-        <?php foreach ($navGroups as $group):
-            // Expand the group containing the current view; collapse the rest.
-            $groupOpen = array_key_exists($view, $group['items']);
-        ?>
-            <details class="nav-group"<?= $groupOpen ? ' open' : '' ?>>
-                <summary><?= htmlspecialchars($group['label']) ?></summary>
-                <div class="nav-body">
+        <?php foreach ($navGroups as $group): ?>
+            <div class="nav-group">
+                <div class="nav-heading"><?= htmlspecialchars($group['label']) ?></div>
                 <?php foreach ($group['items'] as $key => $meta):
                     $isActive  = ($view === $key);
                     $isPlanned = ($meta[1] === 'coming_soon.php');
@@ -570,14 +508,12 @@ $currentUser = getCurrentUser();
                 ?>
                     <a href="?view=<?= urlencode($key) ?>" class="<?= $classes ?>"><?= htmlspecialchars($meta[0]) ?></a>
                 <?php endforeach; ?>
-                </div>
-            </details>
+            </div>
         <?php endforeach; ?>
 
         <div class="sidebar-foot">
             <a href="insights.php">Compliance Analysis</a>
             <a href="reports/index.php">Reports</a>
-            <a href="/v2/">Platform Rebuild</a>
         </div>
     </nav>
 
@@ -610,24 +546,10 @@ $currentUser = getCurrentUser();
     };
 
     (function () {
-        var toggle   = document.getElementById('menu-toggle');
-        var backdrop = document.getElementById('backdrop');
-
-        function setNav(open) {
-            document.body.classList.toggle('nav-open', open);
-            if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        }
-
-        if (toggle) {
-            toggle.addEventListener('click', function () {
-                setNav(!document.body.classList.contains('nav-open'));
-            });
-        }
-        if (backdrop) backdrop.addEventListener('click', function () { setNav(false); });
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') setNav(false);
-        });
+        var t = document.getElementById('menu-toggle');
+        var b = document.getElementById('backdrop');
+        if (t) t.addEventListener('click', function () { document.body.classList.toggle('nav-open'); });
+        if (b) b.addEventListener('click', function () { document.body.classList.remove('nav-open'); });
     })();
 </script>
 <script src="assets/js/session-guard.js"></script>
